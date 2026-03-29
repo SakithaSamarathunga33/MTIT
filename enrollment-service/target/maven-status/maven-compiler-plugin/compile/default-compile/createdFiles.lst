@@ -1,0 +1,7 @@
+com\ecommerce\enrollmentservice\model\Enrollment.class
+com\ecommerce\enrollmentservice\model\EnrollmentItem.class
+com\ecommerce\enrollmentservice\controller\EnrollmentController.class
+com\ecommerce\enrollmentservice\EnrollmentServiceApplication.class
+com\ecommerce\enrollmentservice\config\DataSeeder.class
+com\ecommerce\enrollmentservice\service\EnrollmentService.class
+com\ecommerce\enrollmentservice\repository\EnrollmentRepository.class
