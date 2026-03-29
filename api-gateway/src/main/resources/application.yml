@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: student-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/students/**, /api/students
+          filters:
+            - RewritePath=/api/students(?<segment>/?.*), /Student$\{segment}
+
+        - id: course-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/courses/**, /api/courses
+          filters:
+            - RewritePath=/api/courses(?<segment>/?.*), /Course$\{segment}
+
+        - id: enrollment-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/enrollments/**, /api/enrollments
+          filters:
+            - RewritePath=/api/enrollments(?<segment>/?.*), /Enrollment$\{segment}
+
+        - id: lecturer-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/lecturers/**, /api/lecturers
+          filters:
+            - RewritePath=/api/lecturers(?<segment>/?.*), /Lecturer$\{segment}
