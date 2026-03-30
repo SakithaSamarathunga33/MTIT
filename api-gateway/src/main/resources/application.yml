@@ -8,29 +8,30 @@ spring:
     gateway:
       routes:
         - id: student-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/students/**, /api/students
-          filters:
-            - RewritePath=/api/students(?<segment>/?.*), /Student$\{segment}
-
-        - id: course-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/courses/**, /api/courses
-          filters:
-            - RewritePath=/api/courses(?<segment>/?.*), /Course$\{segment}
-
-        - id: enrollment-service
           uri: http://localhost:8083
           predicates:
-            - Path=/api/enrollments/**, /api/enrollments
+            - Path=/api/student/**, /api/student
           filters:
-            - RewritePath=/api/enrollments(?<segment>/?.*), /Enrollment$\{segment}
+            - RewritePath=/api/student(?<segment>/?.*), /student$\{segment}
 
-        - id: lecturer-service
+        - id: enrollment-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/enrollement/**, /api/enrollement
+          filters:
+            - RewritePath=/api/enrollement(?<segment>/?.*), /enrollment$\{segment}
+
+        - id: lecture-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/lecture/**, /api/lecture
+          filters:
+            - RewritePath=/api/lecture(?<segment>/?.*), /lecture$\{segment}
+
+        - id: course-service
           uri: http://localhost:8084
           predicates:
-            - Path=/api/lecturers/**, /api/lecturers
+            - Path=/api/course/**, /api/course
           filters:
-            - RewritePath=/api/lecturers(?<segment>/?.*), /Lecturer$\{segment}
+            - RewritePath=/api/course(?<segment>/?.*), /course$\{segment}
+
