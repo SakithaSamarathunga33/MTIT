@@ -1,3 +1,7 @@
+# Single entry point: http://localhost:8080
+# Swagger UI: http://localhost:8080/swagger-ui.html  (dropdown to pick any service)
+# REST:       http://localhost:8080/student, /course, /lecture, /enrollments
+
 server:
   port: 8080
 
@@ -6,32 +10,72 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods: [ GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD ]
+            allowedHeaders: "*"
       routes:
+        # --- OpenAPI spec proxies (Swagger UI fetches these) ---
+        - id: student-api-docs
+          uri: http://localhost:8083
+          predicates:
+            - Path=/v3/api-docs/student
+          filters:
+            - RewritePath=/v3/api-docs/student, /v3/api-docs
+
+        - id: enrollment-api-docs
+          uri: http://localhost:8081
+          predicates:
+            - Path=/v3/api-docs/enrollment
+          filters:
+            - RewritePath=/v3/api-docs/enrollment, /v3/api-docs
+
+        - id: lecture-api-docs
+          uri: http://localhost:8082
+          predicates:
+            - Path=/v3/api-docs/lecture
+          filters:
+            - RewritePath=/v3/api-docs/lecture, /v3/api-docs
+
+        - id: course-api-docs
+          uri: http://localhost:8084
+          predicates:
+            - Path=/v3/api-docs/course
+          filters:
+            - RewritePath=/v3/api-docs/course, /v3/api-docs
+
+        # --- REST API proxies (same paths the services use — no rewriting) ---
         - id: student-service
           uri: http://localhost:8083
           predicates:
-            - Path=/api/student/**, /api/student
-          filters:
-            - RewritePath=/api/student(?<segment>/?.*), /student$\{segment}
+            - Path=/student, /student/**
 
         - id: enrollment-service
           uri: http://localhost:8081
           predicates:
-            - Path=/api/enrollement/**, /api/enrollement
-          filters:
-            - RewritePath=/api/enrollement(?<segment>/?.*), /enrollment$\{segment}
+            - Path=/enrollments, /enrollments/**
 
         - id: lecture-service
           uri: http://localhost:8082
           predicates:
-            - Path=/api/lecture/**, /api/lecture
-          filters:
-            - RewritePath=/api/lecture(?<segment>/?.*), /lecture$\{segment}
+            - Path=/lecture, /lecture/**
 
         - id: course-service
           uri: http://localhost:8084
           predicates:
-            - Path=/api/course/**, /api/course
-          filters:
-            - RewritePath=/api/course(?<segment>/?.*), /course$\{segment}
+            - Path=/course, /course/**
 
+# SpringDoc: one Swagger UI on the gateway with a dropdown for each service
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Student Service
+        url: /v3/api-docs/student
+      - name: Enrollment Service
+        url: /v3/api-docs/enrollment
+      - name: Lecturer Service
+        url: /v3/api-docs/lecture
+      - name: Course Service
+        url: /v3/api-docs/course

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Lecturer")
+@RequestMapping("/lecture")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class LecturerController {
 
