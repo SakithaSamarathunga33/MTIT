@@ -203,17 +203,7 @@ No local MongoDB installation is required.
 
 ## Getting Started
 
-### Option 1: Start all services at once (Windows)
-
-```powershell
-.\start-microservices.ps1
-```
-
-This opens a separate terminal for each service and starts the gateway last.
-
-### Option 2: Start each service manually
-
-Open **5 separate terminals** and run:
+Start each microservice in its own terminal (or IDE run configuration). Start the **four backends first**, then the **API Gateway** so routes are ready when the gateway listens on port 8080.
 
 ```bash
 # Terminal 1 — Enrollment Service
@@ -318,7 +308,6 @@ MTIT/
 │   │   └── application.yml
 │   └── pom.xml
 │
-├── start-microservices.ps1       # PowerShell script to start all services
 └── README.md
 ```
 
