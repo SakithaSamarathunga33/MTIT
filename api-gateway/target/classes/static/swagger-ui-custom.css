@@ -1,0 +1,4 @@
+/* Hide OpenAPI "Servers" block (includes "Generated server url") */
+.swagger-ui .servers {
+  display: none !important;
+}

@@ -1,0 +1,25 @@
+server:
+  port: 8083
+  forward-headers-strategy: framework
+  tomcat:
+    use-relative-redirects: true
+
+spring:
+  application:
+    name: student-service
+  data:
+    mongodb:
+      uri: mongodb+srv://sakithaudarashmika63:KkdHaOWzf8PY0Xl1@mernapp.s3ekfyg.mongodb.net/studentdb?appName=mernApp
+      database: studentdb
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
