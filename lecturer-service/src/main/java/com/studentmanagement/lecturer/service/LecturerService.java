@@ -35,7 +35,11 @@ public class LecturerService {
         }).orElseThrow(() -> new RuntimeException("Lecturer not found with id " + id));
     }
 
-    public void deleteLecturer(String id) {
-        lecturerRepository.deleteById(id);
+    public boolean deleteLecturer(String id) {
+        if (lecturerRepository.existsById(id)) {
+            lecturerRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

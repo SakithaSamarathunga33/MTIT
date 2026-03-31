@@ -3,6 +3,7 @@ package com.studentmanagement.lecturer.controller;
 import com.studentmanagement.lecturer.model.Lecturer;
 import com.studentmanagement.lecturer.service.LecturerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +44,11 @@ public class LecturerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLecturer(@PathVariable String id) {
-        lecturerService.deleteLecturer(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteLecturer(@PathVariable String id) {
+        if (lecturerService.deleteLecturer(id)) {
+            return ResponseEntity.ok("Deleted successfully. Lecturer with id '" + id + "' was removed.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Lecturer with id '" + id + "' was not found.");
     }
 }

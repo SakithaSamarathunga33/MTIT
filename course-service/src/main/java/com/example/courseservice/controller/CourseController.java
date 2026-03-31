@@ -3,6 +3,7 @@ package com.example.courseservice.controller;
 import com.example.courseservice.model.Course;
 import com.example.courseservice.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,11 +46,10 @@ public class CourseController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCourse(@PathVariable String id) {
-        boolean isDeleted = courseService.deleteCourse(id);
-        if (isDeleted) {
-            return ResponseEntity.ok("Success! Course with ID: '" + id + "' has been successfully deleted.");
-        } else {
-            return ResponseEntity.ok("Note: Course with ID '" + id + "' was not found, but your DELETE request was received successfully!");
+        if (courseService.deleteCourse(id)) {
+            return ResponseEntity.ok("Deleted successfully. Course with id '" + id + "' was removed.");
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Course with id '" + id + "' was not found.");
     }
 }

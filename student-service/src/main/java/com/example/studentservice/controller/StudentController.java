@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,15 +66,16 @@ public class StudentController {
 
     @Operation(summary = "Delete a student")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Successfully deleted student"),
+        @ApiResponse(responseCode = "200", description = "Student deleted successfully"),
         @ApiResponse(responseCode = "404", description = "Student not found")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable String id) {
+    public ResponseEntity<String> deleteStudent(@PathVariable String id) {
         if (studentService.deleteStudent(id)) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok("Deleted successfully. Student with id '" + id + "' was removed.");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Student with id '" + id + "' was not found.");
     }
 }
 

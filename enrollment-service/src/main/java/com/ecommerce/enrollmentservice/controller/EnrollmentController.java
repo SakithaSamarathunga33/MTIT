@@ -82,11 +82,12 @@ public class EnrollmentController {
 
     @Operation(summary = "Delete an enrollment")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEnrollment(@PathVariable("id") String id) {
+    public ResponseEntity<String> deleteEnrollment(@PathVariable("id") String id) {
         if (enrollmentService.deleteEnrollment(id)) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok("Deleted successfully. Enrollment with id '" + id + "' was removed.");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Enrollment with id '" + id + "' was not found.");
     }
 }
 
